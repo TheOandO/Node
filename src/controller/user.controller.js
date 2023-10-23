@@ -1,13 +1,14 @@
 const User = require('../model/user.model');
 
 const getUsers = async (req, res) => {
-    await User.find()
-        .then(users => {
-            res.json(users)
-        })
-        .catch(error => {
-            res.send(error)
-        });
+    try {
+        const users = await User.find()
+        res.json(users);
+    }
+    catch (error){
+        res.send(error)
+    }
+    
 };
 
 const createUser = async (req, res) => {
@@ -26,11 +27,13 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { username, password, email } = req.body;
-    await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
         { _id: req.params.userID },
         {
             $set: {
-                username, password, email
+                username,
+                password,
+                email
             },
         },
         { new: true },
@@ -39,15 +42,21 @@ const updateUser = async (req, res) => {
     }).catch(error => {
         res.send(error);
     });
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
 }
 
 const deleteUser = async (req, res) => {
-    await User.deleteOne({_id: req.params.userID})
+    const user = await User.deleteOne({_id: req.params.userID})
         .then(user => {
             res.json(user);
         }).catch(error => {
             res.send(error)
         });
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
 }
 
 module.exports = {

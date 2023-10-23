@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 //Define Todo Schema
-const TodoSchema = new mongoose.Schema({
+const TodoSchema = new mongoose.Schema(
+    {
     title: {
         type: String,
         required: true,
@@ -12,8 +13,7 @@ const TodoSchema = new mongoose.Schema({
     completed: {
         type: Boolean,
     default: false,
-    },
-},
+    }},
     {
         timestamps: true
     }

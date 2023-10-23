@@ -1,7 +1,11 @@
 const User = require('../model/user.model');
 
-//GET all users
-const getUsers = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.getUsers = async (req, res) => {
     try {
         const users = await User.find()
         res.json(users);
@@ -12,8 +16,12 @@ const getUsers = async (req, res) => {
     
 };
 
-//POST an user
-const createUser = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.createUser = async (req, res) => {
     try {
         const { username, password, email } = req.body;
         const user = new User({
@@ -29,8 +37,13 @@ const createUser = async (req, res) => {
     }
 };
 
-//PUT an existing user
-const updateUser = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.updateUser = async (req, res) => {
     try {
         const { username, password, email } = req.body;
         const updatedUser = await User.findOneAndUpdate(
@@ -55,8 +68,13 @@ const updateUser = async (req, res) => {
 
 }
 
-//DELETE an user
-const deleteUser = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.deleteUser = async (req, res) => {
     try {
         const user = await User.deleteOne({_id: req.params.userID})
         if (!user) {
@@ -67,11 +85,4 @@ const deleteUser = async (req, res) => {
     catch (error){
         res.status(500).json({ error: 'Delete failed'});
     }
-}
-
-module.exports = {
-    getUsers,
-    createUser,
-    updateUser,
-    deleteUser
 }

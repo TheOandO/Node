@@ -1,7 +1,11 @@
 const Todo = require('../model/todo.model')
 
-//GET all todos
-const getTodos = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.getTodos = async (req, res) => {
     try {
         const todos = await Todo.find()
         res.json(todos);
@@ -12,8 +16,12 @@ const getTodos = async (req, res) => {
     
 };
 
-//POST a todo
-const createTodo = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.createTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
         const todo = new Todo({
@@ -29,8 +37,13 @@ const createTodo = async (req, res) => {
     }
 };
 
-//PUT an existing todo
-const updateTodo = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.updateTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
         const updatedTodo = await Todo.findOneAndUpdate(
@@ -55,8 +68,13 @@ const updateTodo = async (req, res) => {
 
 }
 
-//DELETE a todo
-const deleteTodo = async (req, res) => {
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.deleteOne({_id: req.params.todoID})
         if (!todo) {
@@ -67,11 +85,4 @@ const deleteTodo = async (req, res) => {
     catch (error){
         res.status(500).json({ error: 'Delete failed'});
     }
-}
-
-module.exports = {
-    getTodos,
-    createTodo,
-    updateTodo,
-    deleteTodo
 }

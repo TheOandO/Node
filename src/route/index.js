@@ -1,6 +1,6 @@
 const express = require('express');
-const userRoute = require('user.route');
-
+const userRoute = require('./user.router');
+const todoRoute = require('./todo.router');
 const router = express.Router();
 
 const defaultRoutes = [

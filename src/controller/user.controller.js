@@ -6,56 +6,64 @@ const getUsers = async (req, res) => {
         res.json(users);
     }
     catch (error){
-        res.send(error)
+        res.status(500).json({ error: 'GET Users failed'});
     }
     
 };
 
 const createUser = async (req, res) => {
-    const { username, password, email } = req.body;
-    const user = new User({
-        username, password, email
-    });
-    await user.save()
-        .then(user => {
-            res.json(user)
-        })
-        .catch(error => {
-            res.send(error)
-        })
+    try {
+        const { username, password, email } = req.body;
+        const user = new User({
+            username, password, email
+        });
+        await user.save()
+            .then(user => {
+                res.json(user)
+            })
+    }
+    catch (error){
+        res.status(500).json({ error: 'Create failed'});
+    }
 };
 
 const updateUser = async (req, res) => {
-    const { username, password, email } = req.body;
-    const user = await User.findOneAndUpdate(
-        { _id: req.params.userID },
-        {
-            $set: {
-                username,
-                password,
-                email
+    try {
+        const { username, password, email } = req.body;
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: req.params.userID },
+            {
+                $set: {
+                    username,
+                    password,
+                    email
+                },
             },
-        },
-        { new: true },
-    ).then(user => {
-        res.json(user);
-    }).catch(error => {
-        res.send(error);
-    });
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+            { new: true },
+        )
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(updatedUser);
     }
+    catch (error){
+        res.status(500).json({ error: 'Update failed'});
+    }
+
 }
 
 const deleteUser = async (req, res) => {
-    const user = await User.deleteOne({_id: req.params.userID})
+    try {
+        const user = await User.deleteOne({_id: req.params.userID})
         .then(user => {
             res.json(user);
-        }).catch(error => {
-            res.send(error)
         });
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+    }
+    catch (error){
+        res.status(500).json({ error: 'Delete failed'});
     }
 }
 

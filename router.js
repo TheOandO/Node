@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { getTodos, createTodo, updateTodo, deleteTodo } = require("./Controller/Todo");
-const { getUsers, createUser, updateUser, deleteUser } = require('./Controller/User');
+const { getTodos, createTodo, updateTodo, deleteTodo } = require("./controller/todoController");
+const { getUsers, createUser, updateUser, deleteUser } = require('./Controller/userController');
 router.get("/", (req, res) => {
     res.send("Let's build a CRUD API!");
 });

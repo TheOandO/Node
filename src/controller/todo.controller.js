@@ -1,12 +1,6 @@
-const Todo = require('../model/todoModel');
+const Todo = require('../model/todo.model');
 
 const getTodos = async (req, res) => {
-    // Todo.find((err, todos) => {
-    //     if (err) {
-    //         res.send(err);
-    //     }
-    //     res.json(todos);
-    // });
     await Todo.find()
         .then(todos => {
             res.json(todos);
@@ -15,18 +9,13 @@ const getTodos = async (req, res) => {
             res.send(err);
         });
 };
+
 const createTodo =  async (req, res) => {
     const todo = new Todo({
         title: req.body.title,
         description: req.body.description,
         completed: req.body.completed,
     });
-
-    // todo.save((err, todo) => {
-    //     if (err) {
-    //         res.send(err);
-    //     }
-    //     res.json(todo);
 
     await todo.save()
         .then(todo => {
@@ -35,8 +24,8 @@ const createTodo =  async (req, res) => {
         .catch(err => {
             res.send(err);
         })
-    //});
 };
+
 const updateTodo = async (req, res) => {
     await Todo.findOneAndUpdate(
         { _id: req.params.todoID },
@@ -57,6 +46,7 @@ const updateTodo = async (req, res) => {
     ).then(() => res.json({ message: "Updated"}))
     .catch((err) => res.send(err));
 }
+
 const deleteTodo = async (req, res) => {
     await Todo.deleteOne({ _id: req.params.todoID })
         .then(() => res.json({ message: "Todo Deleted" }))

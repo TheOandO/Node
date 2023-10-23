@@ -1,5 +1,5 @@
 const express = require("express");
-const router = require("../router");
+const router = require("./route/user.router");
 const PORT = process.env.PORT || 8000;
 const app = express();
 const mongoose = require("mongoose");

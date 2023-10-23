@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+//Define Todo Schema
 const TodoSchema = new mongoose.Schema({
     title: {
         type: String,

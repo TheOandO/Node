@@ -1,5 +1,6 @@
 const Todo = require('../model/todo.model')
 
+//GET all todos
 const getTodos = async (req, res) => {
     try {
         const todos = await Todo.find()
@@ -11,6 +12,7 @@ const getTodos = async (req, res) => {
     
 };
 
+//POST a todo
 const createTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
@@ -27,6 +29,7 @@ const createTodo = async (req, res) => {
     }
 };
 
+//PUT an existing todo
 const updateTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
@@ -52,6 +55,7 @@ const updateTodo = async (req, res) => {
 
 }
 
+//DELETE a todo
 const deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.deleteOne({_id: req.params.todoID})

@@ -44,6 +44,7 @@ const updateTodo = async (req, res) => {
         if (!updatedTodo) {
             return res.status(404).json({ error: 'Todo not found' });
         }
+        res.json(updatedTodo)
     }
     catch (error){
         res.status(500).json({ error: 'Update failed'});

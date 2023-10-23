@@ -55,12 +55,10 @@ const updateTodo = async (req, res) => {
 const deleteTodo = async (req, res) => {
     try {
         const todo = await Todo.deleteOne({_id: req.params.todoID})
-        .then(todo => {
-            res.json(todo);
-        });
         if (!todo) {
             return res.status(404).json({ error: 'Todo not found' });
         }
+        res.json("Todo deleted successfully");
     }
     catch (error){
         res.status(500).json({ error: 'Delete failed'});

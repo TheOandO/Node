@@ -1,4 +1,4 @@
-const User = require('../model/user.model');
+const users = require('../model/user.model');
 
 /**
  * 
@@ -7,8 +7,8 @@ const User = require('../model/user.model');
  */
 exports.getUsers = async (req, res) => {
     try {
-        const users = await User.find()
-        res.json(users);
+        const user = await users.find()
+        res.json(user);
     }
     catch (error){
         res.status(500).json({ error: 'GET Users failed'});
@@ -24,7 +24,7 @@ exports.getUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
     try {
         const { username, password, email } = req.body;
-        const user = new User({
+        const user = new users({
             username, password, email
         });
         await user.save()
@@ -46,7 +46,7 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { username, password, email } = req.body;
-        const updatedUser = await User.findOneAndUpdate(
+        const updatedUser = await users.findOneAndUpdate(
             { _id: req.params.userID },
             {
                 $set: {
@@ -76,7 +76,7 @@ exports.updateUser = async (req, res) => {
  */
 exports.deleteUser = async (req, res) => {
     try {
-        const user = await User.deleteOne({_id: req.params.userID})
+        const user = await users.deleteOne({_id: req.params.userID})
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }

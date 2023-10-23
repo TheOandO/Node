@@ -1,4 +1,4 @@
-const Todo = require('../model/todo.model')
+const todos = require('../model/todo.model')
 
 /**
  * 
@@ -7,8 +7,8 @@ const Todo = require('../model/todo.model')
  */
 exports.getTodos = async (req, res) => {
     try {
-        const todos = await Todo.find()
-        res.json(todos);
+        const todo = await todos.find()
+        res.json(todo);
     }
     catch (error){
         res.status(500).json({ error: 'GET Todos failed'});
@@ -24,7 +24,7 @@ exports.getTodos = async (req, res) => {
 exports.createTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
-        const todo = new Todo({
+        const todo = new todos({
             title, description, completed
         });
         await todo.save()
@@ -46,7 +46,7 @@ exports.createTodo = async (req, res) => {
 exports.updateTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
-        const updatedTodo = await Todo.findOneAndUpdate(
+        const updatedTodo = await todos.findOneAndUpdate(
             { _id: req.params.todoID },
             {
                 $set: {
@@ -76,7 +76,7 @@ exports.updateTodo = async (req, res) => {
  */
 exports.deleteTodo = async (req, res) => {
     try {
-        const todo = await Todo.deleteOne({_id: req.params.todoID})
+        const todo = await todos.deleteOne({_id: req.params.todoID})
         if (!todo) {
             return res.status(404).json({ error: 'Todo not found' });
         }

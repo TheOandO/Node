@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-//Define Todo Schema
 const TodoSchema = new mongoose.Schema(
     {
     title: {
@@ -19,4 +18,4 @@ const TodoSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Todo', TodoSchema);
+module.exports = mongoose.model('todos', TodoSchema);

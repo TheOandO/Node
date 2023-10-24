@@ -1,5 +1,5 @@
 const users = require('../model/user.model');
-
+const service = require('../service/user.service');
 /**
  * 
  * @param {*} req 
@@ -13,7 +13,6 @@ exports.getUsers = async (req, res) => {
     catch (error){
         res.status(500).json({ error: 'GET Users failed'});
     }
-    
 };
 
 /**
@@ -46,8 +45,13 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { username, password, email } = req.body;
+        const userID = req.params.userID;
+
+        //Check if user exists
+        await service.checkUserExistence(userID);
+
         const updatedUser = await users.findOneAndUpdate(
-            { _id: req.params.userID },
+            { _id: userID },
             {
                 $set: {
                     username,
@@ -57,9 +61,6 @@ exports.updateUser = async (req, res) => {
             },
             { new: true },
         )
-        if (!updatedUser) {
-            return res.status(404).json({ error: 'User not found' });
-        }
         res.json(updatedUser);
     }
     catch (error){
@@ -76,10 +77,13 @@ exports.updateUser = async (req, res) => {
  */
 exports.deleteUser = async (req, res) => {
     try {
-        const user = await users.deleteOne({_id: req.params.userID})
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
+        const userID = req.params.userID;
+
+        //Check if user exists
+        await service.checkUserExistence(userID);
+
+        await users.deleteOne({_id: userID});
+        
         res.json("User deleted successfully");
     }
     catch (error){

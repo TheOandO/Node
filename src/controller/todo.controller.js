@@ -46,8 +46,13 @@ exports.createTodo = async (req, res) => {
 exports.updateTodo = async (req, res) => {
     try {
         const { title, description, completed } = req.body;
+        const todoID = req.params.todoID
+
+        //Check if todo exists
+        await service.checkUserExistance(todoID);
+
         const updatedTodo = await todos.findOneAndUpdate(
-            { _id: req.params.todoID },
+            { _id: todoID },
             {
                 $set: {
                     title,
@@ -57,9 +62,7 @@ exports.updateTodo = async (req, res) => {
             },
             { new: true },
         )
-        if (!updatedTodo) {
-            return res.status(404).json({ error: 'Todo not found' });
-        }
+
         res.json(updatedTodo)
     }
     catch (error){
@@ -76,10 +79,13 @@ exports.updateTodo = async (req, res) => {
  */
 exports.deleteTodo = async (req, res) => {
     try {
-        const todo = await todos.deleteOne({_id: req.params.todoID})
-        if (!todo) {
-            return res.status(404).json({ error: 'Todo not found' });
-        }
+        const todoID = req.params.todoID
+
+        //Check if todo exists
+        await service.checkUserExistance(todoID);
+
+        await todos.deleteOne({_id: todoID});
+
         res.json("Todo deleted successfully");
     }
     catch (error){

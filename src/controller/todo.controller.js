@@ -7,7 +7,8 @@ const todos = require('../model/todo.model')
  */
 exports.getTodos = async (req, res) => {
     try {
-        const todo = await todos.find()
+        const todo = await todos.find();
+        
         res.json(todo);
     }
     catch (error){
@@ -27,6 +28,7 @@ exports.createTodo = async (req, res) => {
         const todo = new todos({
             title, description, completed
         });
+
         await todo.save()
             .then(todo => {
                 res.json(todo)

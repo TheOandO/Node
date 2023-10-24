@@ -7,7 +7,8 @@ const service = require('../service/user.service');
  */
 exports.getUsers = async (req, res) => {
     try {
-        const user = await users.find()
+        const user = await users.find();
+        
         res.json(user);
     }
     catch (error){
@@ -26,6 +27,7 @@ exports.createUser = async (req, res) => {
         const user = new users({
             username, password, email
         });
+
         await user.save()
             .then(user => {
                 res.json(user)

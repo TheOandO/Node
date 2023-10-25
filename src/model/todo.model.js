@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { TODO_MODEL } = require("../util/constants/modelNames");
 
 const TodoSchema = new mongoose.Schema(
     {
@@ -18,4 +19,4 @@ const TodoSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('todos', TodoSchema);
+module.exports = mongoose.model(TODO_MODEL, TodoSchema);

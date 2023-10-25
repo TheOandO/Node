@@ -1,10 +1,10 @@
 // services.js
-const users = require('../model/user.model'); // Import your User model
-const todos = require('../model/todo.model');
+const entity = require('../model/');
+const joi = require('joi');
 
 async function checkUserExistence(userID) {
     try {
-        const user = await users.findById(userID);
+        const user = await entity.findById(userID);
         
         if (!user) {
             throw new Error('User not found');
@@ -16,7 +16,7 @@ async function checkUserExistence(userID) {
 
 async function checkTodoExistence(todoID) {
     try {
-        const todo = await todos.findById(todoID);
+        const todo = await entity.findById(todoID);
         
         if (!todo) {
             throw new Error('Todo not found');
@@ -37,6 +37,14 @@ async function checkExists(model, cond) {
         throw error;
     }
 }
+
+exports.validateData = (data, schema) => {
+    const { error } = schema.validate(data);
+    if (error) {
+        return res.status(400).json({ error: error });
+    }
+    return error ? error.details[0].message : null;
+};
 
 module.exports = {
     checkUserExistence,

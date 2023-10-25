@@ -1,16 +1,16 @@
-const todos = require('../model/todo.model')
+const TODO_MODEL = require('../model/todo.model')
 const service = require('../service/');
 const { catchAsync } = require('../util/catchAsync');
-const { todoValidationSchema } = require('../util/validation');
+const { todoValidationSchema } = require('../middleware/validation');
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ * Get all TODOS
+ * @param {Request} req 
+ * @param {Response} res 
  */
 exports.getTodos = catchAsync(async (req, res) => {
     try {
-        const todo = await todos.find();
+        const todo = await TODO_MODEL.find();
 
         res.json(todo);
     }
@@ -20,9 +20,10 @@ exports.getTodos = catchAsync(async (req, res) => {
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *  Create a todo
+ * @param {Request} req 
+ * @param {Response} res
+ * @returns {Object}
  */
 exports.createTodo = catchAsync(async (req, res) => {
     const { error } = todoValidationSchema.validate(req.body);
@@ -34,7 +35,7 @@ exports.createTodo = catchAsync(async (req, res) => {
     try {
         const { title, description, completed } = req.body;
 
-        const todo = new todos({
+        const todo = new TODO_MODEL({
             title, description, completed
         });
 
@@ -49,10 +50,10 @@ exports.createTodo = catchAsync(async (req, res) => {
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Update a todo
+ * @param {Request} req 
+ * @param {Response} res
+ * @returns {Object} updatedtodo
  */
 exports.updateTodo = catchAsync(async (req, res) => {
     const { error } = todoValidationSchema.validate(req.body);
@@ -66,9 +67,9 @@ exports.updateTodo = catchAsync(async (req, res) => {
         const todoID = req.params.todoID
 
         //Check if todo exists
-        await service.checkExists(todos, todoID);
+        await service.checkExists(TODO_MODEL, todoID);
 
-        const updatedTodo = await todos.findOneAndUpdate(
+        const updatedTodo = await TODO_MODEL.findOneAndUpdate(
             { _id: todoID },
             {
                 $set: {
@@ -87,19 +88,19 @@ exports.updateTodo = catchAsync(async (req, res) => {
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Delete a todo
+ * @param {Request} req 
+ * @param {Response} res
+ * @returns {void}
  */
 exports.deleteTodo = catchAsync(async (req, res) => {
     try {
         const todoID = req.params.todoID
 
         //Check if todo exists
-        //await service.checkExists(todos, todoID);
+        //await service.checkExists(TODO_MODEL, todoID);
 
-        await todos.deleteOne({_id: todoID});
+        await TODO_MODEL.deleteOne({_id: todoID});
 
         res.json("Todo deleted successfully");
     }

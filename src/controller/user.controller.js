@@ -1,16 +1,16 @@
-const users = require('../model/user.model');
+const USER_MODEL = require('../model/user.model');
 const { service } = require('../service/');
 const { catchAsync } = require('../util/catchAsync');
-const { userValidationSchema } = require('../util/validation');
+const { userValidationSchema } = require('../middleware/validation');
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ * Get all users
+ * @param {Request} req 
+ * @param {Response} res 
  */
 exports.getUsers = catchAsync(async (req, res) => {
     try {
-        const user = await users.find();
+        const user = await USER_MODEL.find();
 
         res.json(user);
     }
@@ -20,9 +20,10 @@ exports.getUsers = catchAsync(async (req, res) => {
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ *  Create a user
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns {Object}
  */
 exports.createUser = catchAsync(async (req, res) => {
     const { error } = userValidationSchema.validate(req.body);
@@ -34,11 +35,11 @@ exports.createUser = catchAsync(async (req, res) => {
     try {
         const { username, password, email } = req.body;
 
-        const user = new users({
+        const user = new USER_MODEL({
             username, password, email
         });
 
-        const existingUser = await users.findOne({ username });
+        const existingUser = await USER_MODEL.findOne({ username });
         if (existingUser) {
             return res.status(400).json({ error: 'Username already taken' });
         }
@@ -49,15 +50,15 @@ exports.createUser = catchAsync(async (req, res) => {
             })
     }
     catch (error){
-        res.status(500).json({ error: 'Create failed'});
+        res.status(500).json({ error: 'POST user failed'});
     }
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Update a user
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns {Object} updatedUser
  */
 exports.updateUser = catchAsync(async (req, res) => {
     const { error } = userValidationSchema.validate(req.body);
@@ -71,9 +72,9 @@ exports.updateUser = catchAsync(async (req, res) => {
         const userID = req.params.userID;
 
         //Check if user exists
-        await service.checkExists(users, userID);
+        await service.checkExists(USER_MODEL, userID);
 
-        const updatedUser = await users.findOneAndUpdate(
+        const updatedUser = await USER_MODEL.findOneAndUpdate(
             { _id: userID },
             {
                 $set: {
@@ -92,19 +93,19 @@ exports.updateUser = catchAsync(async (req, res) => {
 });
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Delete a user
+ * @param {Request} req 
+ * @param {Response} res 
+ * @returns {void}
  */
 exports.deleteUser = catchAsync(async (req, res) => {
     try {
         const userID = req.params.userID;
 
         //Check if user exists
-        //await service.checkExists(users, userID);
+        await service.checkExists(USER_MODEL, userID);
 
-        await users.deleteOne({_id: userID});
+        await USER_MODEL.deleteOne({_id: userID});
         
         res.json("User deleted successfully");
     }

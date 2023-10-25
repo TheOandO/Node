@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { USER_MODEL } = require('../util/constants/modelNames');
 
 const UserSchema = new mongoose.Schema(
     {
@@ -16,4 +17,4 @@ const UserSchema = new mongoose.Schema(
     }}
 );
 
-module.exports = mongoose.model('users', UserSchema);
+module.exports = mongoose.model(USER_MODEL, UserSchema);

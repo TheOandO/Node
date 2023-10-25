@@ -1,11 +1,10 @@
 const router = require("express").Router();
 const userController = require('../controller/user.controller');
-const { catchAsync } = require("../util/catchAsync");
 
 router
-    .get('/', catchAsync(userController.getUsers))
-    .post('/', catchAsync(userController.createUser))
-    .put('/:userID', catchAsync(userController.updateUser))
-    .delete('/:userID', catchAsync(userController.deleteUser));
+    .get('/', userController.getUsers)
+    .post('/', userController.createUser)
+    .put('/:userID', userController.updateUser)
+    .delete('/:userID', userController.deleteUser);
 
 module.exports = router;

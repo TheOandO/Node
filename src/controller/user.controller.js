@@ -1,7 +1,7 @@
 const USER_MODEL = require('../model/user.model');
 const { service } = require('../service/');
 const { catchAsync } = require('../util/catchAsync');
-const { userValidationSchema } = require('../middleware/validation');
+const { userValidationSchema } = require('../middleware/validate.middleware');
 
 /**
  * Get all users
@@ -26,8 +26,6 @@ exports.getUsers = catchAsync(async (req, res) => {
  * @returns {Object} user
  */
 exports.createUser = catchAsync(async (req, res) => {
-
-    
     try {
         const { username, password, email } = req.body;
         const { error } = userValidationSchema.validate(req.body);

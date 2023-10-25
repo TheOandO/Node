@@ -1,7 +1,7 @@
 const TODO_MODEL = require('../model/todo.model')
 const service = require('../service/');
 const { catchAsync } = require('../util/catchAsync');
-const { todoValidationSchema } = require('../middleware/validation');
+const { todoValidationSchema } = require('../middleware/validate.middleware');
 
 /**
  * Get all TODOS

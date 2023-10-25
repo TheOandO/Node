@@ -28,7 +28,7 @@ async function checkTodoExistence(todoID) {
 
 async function checkExists(model, cond) {
     try {
-        const entity = await model.findOne({ _id: cond });
+        const entity = await model.findOne(cond);
         if (!entity) {
             throw new Error('Entity not found');
         }

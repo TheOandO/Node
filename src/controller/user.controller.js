@@ -1,5 +1,5 @@
 const users = require('../model/user.model');
-const service = require('../service/');
+const { service } = require('../service/');
 const { catchAsync } = require('../util/catchAsync');
 const { userValidationSchema } = require('../util/validation');
 
@@ -102,7 +102,7 @@ exports.deleteUser = catchAsync(async (req, res) => {
         const userID = req.params.userID;
 
         //Check if user exists
-        await service.checkExists(users, userID);
+        //await service.checkExists(users, userID);
 
         await users.deleteOne({_id: userID});
         

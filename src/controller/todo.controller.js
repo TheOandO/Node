@@ -97,7 +97,7 @@ exports.deleteTodo = catchAsync(async (req, res) => {
         const todoID = req.params.todoID
 
         //Check if todo exists
-        await service.checkExists(todos, todoID);
+        //await service.checkExists(todos, todoID);
 
         await todos.deleteOne({_id: todoID});
 

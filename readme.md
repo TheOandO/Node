@@ -12,26 +12,22 @@
 <a href="#api-endpoints">API Endpoints</a><br>
 <a href="#maintainers">Maintainers</a></p>
 <h2 id="getting-started">Getting Started</h2>
-<p><strong>Prerequisites</strong><br>
-Before running the project, you should have the following installed:</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before running the project, you should have the following installed:</p>
 <ul>
 <li>Node.js and npm.</li>
 <li>MongoDB.</li>
 </ul>
-<p><strong>Installations</strong></p>
-<ol>
-<li>Clone the repository</li>
-</ol>
+<h3 id="installations">Installations</h3>
+<p><strong>1. Clone the repository</strong></p>
 <pre><code>git clone https://github.com/TheOandO/Node
 cd Node
 </code></pre>
-<ol start="2">
-<li>Install the dependencies:<br>
-<code>npm i express mongoose nodemon joi cors dotenv bcrypt</code></li>
-<li>Set up MongoDB Atlas</li>
-<li>Set up environment variable<br>
-Configure the MongoDB connection:</li>
-</ol>
+<p><strong>2. Install the dependencies:</strong><br>
+<code>npm i express mongoose nodemon joi cors dotenv bcrypt</code><br>
+<strong>3. Set up MongoDB Atlas</strong><br>
+<strong>4. Set up environment variable</strong><br>
+Configure the MongoDB connection:</p>
 <ul>
 <li>Open <code>.env</code>.</li>
 <li>Update the MongoDB connection URL.<br>
@@ -48,7 +44,7 @@ Configure the MongoDB connection:</li>
  |--index.js        # Express App entry point
 </code></pre>
 <h2 id="usage">Usage</h2>
-<p><strong>Running the server</strong></p>
+<h3 id="running-the-server">Running the server</h3>
 <pre><code>npm start
 </code></pre>
 <p>The server will run on <code>http://localhost:8000</code> by default. You can change the port in <code>index.js</code>.</p>

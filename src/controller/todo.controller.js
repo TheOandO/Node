@@ -23,18 +23,18 @@ exports.getTodos = catchAsync(async (req, res) => {
  *  Create a todo
  * @param {Request} req 
  * @param {Response} res
- * @returns {Object}
+ * @returns {Object} todo
  */
 exports.createTodo = catchAsync(async (req, res) => {
-    const { error } = todoValidationSchema.validate(req.body);
-
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-    }
-    
     try {
         const { title, description, completed } = req.body;
 
+        const { error } = todoValidationSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
+        
         const todo = new TODO_MODEL({
             title, description, completed
         });
@@ -56,15 +56,15 @@ exports.createTodo = catchAsync(async (req, res) => {
  * @returns {Object} updatedtodo
  */
 exports.updateTodo = catchAsync(async (req, res) => {
-    const { error } = todoValidationSchema.validate(req.body);
-
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-    }
-    
     try {
         const { title, description, completed } = req.body;
         const todoID = req.params.todoID
+
+        const { error } = todoValidationSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }    
 
         //Check if todo exists
         await service.checkExists(TODO_MODEL, todoID);
@@ -98,7 +98,7 @@ exports.deleteTodo = catchAsync(async (req, res) => {
         const todoID = req.params.todoID
 
         //Check if todo exists
-        //await service.checkExists(TODO_MODEL, todoID);
+        await service.checkExists(TODO_MODEL, todoID);
 
         await TODO_MODEL.deleteOne({_id: todoID});
 

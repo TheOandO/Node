@@ -23,17 +23,18 @@ exports.getUsers = catchAsync(async (req, res) => {
  *  Create a user
  * @param {Request} req 
  * @param {Response} res 
- * @returns {Object}
+ * @returns {Object} user
  */
 exports.createUser = catchAsync(async (req, res) => {
-    const { error } = userValidationSchema.validate(req.body);
 
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-    }
     
     try {
         const { username, password, email } = req.body;
+        const { error } = userValidationSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
 
         const user = new USER_MODEL({
             username, password, email
@@ -61,18 +62,18 @@ exports.createUser = catchAsync(async (req, res) => {
  * @returns {Object} updatedUser
  */
 exports.updateUser = catchAsync(async (req, res) => {
-    const { error } = userValidationSchema.validate(req.body);
-
-    if (error) {
-        return res.status(400).json({ error: error.details[0].message });
-    }
-
     try {
         const { username, password, email } = req.body;
         const userID = req.params.userID;
 
+        const { error } = userValidationSchema.validate(req.body);
+
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
+
         //Check if user exists
-        await service.checkExists(USER_MODEL, userID);
+        //await service.checkExists(USER_MODEL, userID);
 
         const updatedUser = await USER_MODEL.findOneAndUpdate(
             { _id: userID },
@@ -88,7 +89,8 @@ exports.updateUser = catchAsync(async (req, res) => {
         res.json(updatedUser);
     }
     catch (error){
-        res.status(500).json({ error: 'Update failed'});
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Update failed' });
     }
 });
 
@@ -103,7 +105,7 @@ exports.deleteUser = catchAsync(async (req, res) => {
         const userID = req.params.userID;
 
         //Check if user exists
-        await service.checkExists(USER_MODEL, userID);
+        //await service.checkExists(USER_MODEL, userID);
 
         await USER_MODEL.deleteOne({_id: userID});
         

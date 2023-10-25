@@ -32,6 +32,7 @@ async function checkExists(model, cond) {
         if (!entity) {
             throw new Error('Entity not found');
         }
+        return entity;
     }
     catch (error) {
         throw error;

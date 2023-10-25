@@ -79,5 +79,5 @@ completed: joi.boolean()
 });
 </code></pre>
 <h2 id="maintainers">Maintainers</h2>
-<p>@TheOandO</p>
+<p href="https://github.com/TheOandO/">@TheOandO</p>
 

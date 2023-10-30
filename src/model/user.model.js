@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema(
         type: String
     }}
 );
+
 //Pre-save hook to save password
 UserSchema.pre('save', function (next) {
     if (!this.isModified('password')) return next();

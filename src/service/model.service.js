@@ -39,12 +39,24 @@ async function checkExists(model, cond) {
     }
 }
 
-exports.validateData = (data, schema) => {
-    const { error } = schema.validate(data);
+exports.validateUser = (req, res, next) => {
+    const { error } = userValidationSchema.validate(req.body);
+
     if (error) {
-        return res.status(400).json({ error: error });
+        return res.status(400).json({ error: error.details[0].message });
     }
-    return error ? error.details[0].message : null;
+
+    next();
+};
+
+exports.validateTodo = (req, res, next) => {
+    const { error } = todoValidationSchema.validate(req.body);
+
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
+
+    next();
 };
 
 module.exports = {

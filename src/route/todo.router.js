@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const todoController = require('../controller/todo.controller');
+const validateTodo = require('../service/model.service')
 
 router
-    .get('/', todoController.getTodos)
-    .post('/', todoController.createTodo)
-    .put('/:todoID', todoController.updateTodo)
-    .delete('/:todoID', todoController.deleteTodo);
+    .get('/',validateTodo, todoController.getTodos)
+    .post('/',validateTodo, todoController.createTodo)
+    .put('/:todoID',validateTodo, todoController.updateTodo)
+    .delete('/:todoID',validateTodo, todoController.deleteTodo);
 
 module.exports = router;

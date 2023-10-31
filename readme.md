@@ -1,8 +1,3 @@
----
-
-
----
-
 <h1 id="node.js-basic-crud-api-project">Node.js Basic CRUD API Project</h1>
 <p>This is a basic CRUD API project created using Node.js, Express, Mongoose, and Joi for input validation. It includes user-related functionality, such as creating, reading, updating, and deleting entity data. The project structure is organized with separate folders for controllers, models, routes, and constants.</p>
 <p><img src="https://img.shields.io/badge/Build-v1.0.0-blue" alt="Static Badge"> <a href="https://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs Welcome"></a></p>
